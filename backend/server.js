@@ -3,11 +3,15 @@ const dotenv = require("dotenv");
 const chats = require("./data/data");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(express.json());
 
 app.use(
   cors({
@@ -19,16 +23,10 @@ app.get("/", (req, res) => {
   res.send("api started");
 });
 
-app.get("/chats", (req, res) => {
-  res.send(chats);
-});
+app.use("/api/user", userRoutes);
 
-app.get("/chats/:id", (req, res) => {
-  const id = req.params.id;
-  const singleChat = chats.find((c) => c._id === id);
-
-  res.send(singleChat);
-});
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.port || 5000;
 
