@@ -6,7 +6,6 @@ import Chatpage from "./Pages/Chatpage";
 function App() {
   return (
     <div className="App">
-      hemlo
       <Routes>
         <Route exact path="/" element={<Homepage />} />
         <Route exact path="/chats" element={<Chatpage />} />
